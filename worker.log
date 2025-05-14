@@ -1,0 +1,161 @@
+2025-05-14 13:22:45,354 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 13:22:45,355 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 13:22:46,019 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 13:23:34,472 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 13:23:34,472 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 13:23:35,070 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 13:23:36,079 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 13:23:36,080 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 13:23:36,080 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:07:39,862 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:07:39,862 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:07:40,557 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:07:41,725 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:07:41,725 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:07:41,725 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:09:10,655 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:09:10,655 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:09:11,350 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:09:12,366 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:09:12,366 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:09:12,366 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:11:26,412 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:11:26,413 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:11:27,016 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:11:28,010 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:11:28,010 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:11:28,010 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:13:24,541 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:13:24,541 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:13:25,248 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:13:26,455 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:13:26,455 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:13:26,455 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:14:25,887 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:14:25,888 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:14:26,500 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:14:27,469 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:14:27,469 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:14:27,469 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:16:04,783 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:16:04,784 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:16:05,393 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:16:06,464 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:16:06,464 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:16:06,464 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:17:00,272 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:17:00,273 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:17:00,872 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:17:01,868 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:17:01,869 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:17:01,869 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:19:13,980 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:19:13,980 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:19:14,766 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:19:15,906 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:19:15,906 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:19:15,906 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:20:25,294 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:20:25,294 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:20:26,083 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:20:27,321 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:20:27,321 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:20:27,321 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:21:00,907 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:21:00,907 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:21:01,611 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:21:02,819 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:21:02,819 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:21:02,819 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:22:24,357 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:22:24,357 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:22:25,021 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:22:26,040 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:22:26,040 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:22:26,040 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:23:18,004 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:23:18,005 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:23:18,604 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:23:19,551 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:23:19,551 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:23:19,551 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:24:03,851 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:24:03,852 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:24:04,486 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:24:05,600 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:24:05,600 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:24:05,600 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:26:41,754 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:26:41,754 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:26:42,343 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:26:43,279 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:26:43,280 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:26:43,280 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:28:57,657 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:28:57,658 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:28:58,276 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:28:59,218 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:28:59,218 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:28:59,218 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:34:30,416 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:34:30,418 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:34:31,039 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:34:32,057 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:34:32,058 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:34:32,058 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:41:37,022 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:41:37,022 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:41:37,660 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:41:38,739 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:41:38,739 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:41:38,739 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:42:01,362 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:42:01,363 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:42:01,970 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:42:02,965 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:42:02,965 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:42:02,965 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:55:17,306 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:55:17,307 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:55:17,956 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:55:18,964 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:55:18,964 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:55:18,964 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 14:57:22,858 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 14:57:22,858 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 14:57:23,581 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 14:57:24,779 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 14:57:24,779 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 14:57:24,779 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 15:00:14,459 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 15:00:14,459 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 15:00:27,483 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 15:00:27,483 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 15:00:28,093 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 15:00:29,087 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 15:00:29,087 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 15:00:29,087 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 15:08:12,313 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 15:08:12,315 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 15:08:12,951 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 15:08:14,095 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 15:08:14,095 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 15:08:14,095 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 15:08:43,353 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 15:08:43,354 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 15:08:43,972 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 15:08:44,916 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 15:08:44,916 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 15:08:44,916 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 15:15:44,394 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 15:15:44,395 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 15:15:45,035 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 15:15:46,015 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 15:15:46,015 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 15:15:46,015 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10
+2025-05-14 15:25:30,035 - __main__ - INFO - ✅ Redis connection successful
+2025-05-14 15:25:30,036 - __main__ - INFO - 🔄 Importing task modules...
+2025-05-14 15:25:30,675 - httpx - INFO - HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+2025-05-14 15:25:31,696 - __main__ - INFO - ✅ Task modules imported successfully
+2025-05-14 15:25:31,696 - __main__ - INFO - 🔧 Using prefork pool for regular tasks
+2025-05-14 15:25:31,696 - __main__ - INFO - 🚀 Starting Celery worker with args: worker --loglevel=info --pool=prefork --concurrency=2 --max-tasks-per-child=10

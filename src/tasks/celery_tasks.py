@@ -1,0 +1,125 @@
+from celery import shared_task
+from typing import Dict, Any, Optional, List, Callable, TypeVar, Generic, Type
+import time
+import psutil
+from functools import wraps
+
+from src.models.task_models import (
+    TaskStatus, ResourceType, TaskType, TaskResult,
+    CeleryTaskRequest, TokenUsage, ComputationalUsage
+)
+from src.models.base_models import TextInput
+from src.agents import runAgentPrimer
+from src.utils.shared import send_update_to_broker
+
+def track_usage_metrics(start_time: float, resource_type: ResourceType = ResourceType.LLM) -> ComputationalUsage:
+    """Track usage metrics for a task"""
+    end_time = time.time()
+    runtime_ms = int((end_time - start_time) * 1000)
+    
+    # Get memory usage
+    process = psutil.Process()
+    memory_info = process.memory_info()
+    
+    return ComputationalUsage(
+        runtime_ms=runtime_ms,
+        resources_used={
+            "memory_rss": memory_info.rss,
+            "memory_vms": memory_info.vms,
+            "cpu_percent": process.cpu_percent()
+        }
+    )
+
+def with_transaction_tracking(task_func: Callable[..., TaskResult]) -> Callable[..., TaskResult]:
+    """
+    Higher-order function to wrap agent tasks with consistent transaction handling.
+    
+    This wrapper ensures:
+    1. Proper transaction creation
+    2. Status updates at each stage
+    3. Usage metrics tracking
+    4. Error handling
+    5. Parent task status synchronization
+    6. Proper type handling for chaining
+    """
+    @wraps(task_func)
+    def wrapper(self, request: Dict[str, Any], *args, **kwargs) -> TaskResult:
+        start_time = time.time()
+        task_id = None
+        print("received request", request)
+        try:
+            # Parse and validate request
+            task_request = CeleryTaskRequest(**request)
+                        
+            # Execute the actual task
+            try:
+                print("running task")
+                send_update_to_broker(task_request=task_request, result=TaskResult(
+                    task_status=TaskStatus.RUNNING,
+                    parent_transaction_id=task_request.parent_transaction_id
+                ))
+                result: TaskResult = task_func(self, task_request, *args, **kwargs)
+                print("result", result)
+            except Exception as e:
+                result = TaskResult(
+                    task_status=TaskStatus.FAILED,
+                    error_message=str(e),
+                    parent_transaction_id=task_request.parent_transaction_id
+                )
+                send_update_to_broker(task_request=task_request, result=result)
+                raise e
+            
+            # Track usage metrics
+            computational_usage = track_usage_metrics(start_time)
+            result.computational_usage = computational_usage
+            send_update_to_broker(task_request=task_request, result=result)
+            return result.model_dump()
+            
+        except Exception as e:
+            if task_id:
+                result = TaskResult(
+                    task_status=TaskStatus.FAILED,
+                    error_message=str(e),
+                    parent_transaction_id=task_request.parent_transaction_id
+                )
+                send_update_to_broker(task_request=task_request, result=result)
+                return result.model_dump()
+            raise
+            
+    return wrapper
+
+@shared_task(bind=True)
+@with_transaction_tracking
+def create_consultant_primer(self, task_request: CeleryTaskRequest) -> TaskResult:
+    """Generate a comprehensive consultant primer based on the given topic.
+    This task analyzes the topic and creates a detailed primer document with key insights,
+    market analysis, and strategic recommendations.
+    """
+    print("task id", self.request.id)
+    print("task request", task_request)
+    
+    # Run the primer agent
+    agentOutput = runAgentPrimer(inputs={"topic": task_request.inputData.get("text","")})
+    
+    # Process output
+    agentOutputDict = agentOutput.model_dump()
+    raw_token_usage = agentOutputDict.get("token_usage", {})
+    
+    # Convert raw token usage to TokenUsage model
+    token_usage = TokenUsage(
+        tokens_total=raw_token_usage.get("total_tokens", 0),
+        prompt_tokens=raw_token_usage.get("prompt_tokens", 0),
+        completion_tokens=raw_token_usage.get("completion_tokens", 0),
+        model_name="ollama/gemma3:4b-it-qat"  # Hardcoded since we know the model
+    )
+    
+    result = agentOutputDict.get("raw", {})
+    
+    return TaskResult(
+        task_status=TaskStatus.COMPLETED,
+        result_payload={"unstructured_text": result},
+        token_usage=token_usage,
+        parent_transaction_id=task_request.parent_transaction_id
+    )
+
+
