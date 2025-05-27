@@ -39,8 +39,8 @@ def run_research_paper_task(request: CeleryTaskRequest):
         "status": TaskStatus.PENDING,
         "parent_transaction_id": request.parent_transaction_id
     }
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run("app:app", host="0.0.0.0", port=9000, reload=True)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app:app", host="0.0.0.0", port=8000)
 
 
