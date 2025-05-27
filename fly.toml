@@ -1,11 +1,16 @@
-app = "services-floral-dream-5844"
-primary_region = "syd"
+# fly.toml app configuration file generated for agent-services on 2025-05-27T13:37:09+10:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'agent-services'
+primary_region = 'syd'
 
 [build]
 
 [processes]
-  app = "/app/.venv/bin/python app.py"
-  worker = "/app/.venv/bin/python worker.py"
+  app = '/app/.venv/bin/python app.py'
+  worker = '/app/.venv/bin/python worker.py'
 
 [http_service]
   internal_port = 8000
@@ -13,18 +18,18 @@ primary_region = "syd"
   auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
-  processes = ['app']  # Only the app process serves HTTP
+  processes = ['app']
 
 [[vm]]
   size = 'shared-cpu-1x'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-  processes = ["app"]  # This VM runs the app
+  processes = ['app']
 
 [[vm]]
   size = 'shared-cpu-1x'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-  processes = ["worker"]  # This VM runs the worker
+  processes = ['worker']
