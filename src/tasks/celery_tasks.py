@@ -3,6 +3,7 @@ from typing import Dict, Any, Optional, List, Callable, TypeVar, Generic, Type
 import time
 import psutil
 from functools import wraps
+from src.agents.crewai_document_summariser.models.document_summariser_input import DocumentSummariserInputModel
 
 from src.models.task_models import (
     TaskStatus, ResourceType, TaskType, TaskResult,
@@ -11,6 +12,11 @@ from src.models.task_models import (
 from src.models.base_models import TextInput
 from src.agents import runAgentPrimer
 from src.utils.shared import send_update_to_broker
+from src.agents.crewai_document_summariser.main import runSummarizerAgent
+from src.agents.crewai_document_summariser.models.document_summariser_input import DocumentSummariserInputModel
+from src.agents.crewai_text_to_schema.main import runAgentTextToSchema
+from src.utils.file_processsing import get_file_from_url, chuncker
+from src.utils.astradb_utils import create_astra_collection, upload_documents_to_astra, astra_client
 
 def track_usage_metrics(start_time: float, resource_type: ResourceType = ResourceType.LLM) -> ComputationalUsage:
     """Track usage metrics for a task"""
@@ -123,3 +129,44 @@ def create_consultant_primer(self, task_request: CeleryTaskRequest) -> TaskResul
     )
 
 
+@shared_task(bind=True)
+@with_transaction_tracking
+def create_research_paper_summary(self, task_request: CeleryTaskRequest) -> TaskResult:
+    """Create a summary of a research paper"""
+    print("task id", self.request.id)
+    print("task request", task_request)
+    
+    # strcuted_input = runAgentTextToSchema(task_request.inputData.get("text", ""),DocumentSummariserInputModel )
+
+    batch_size = 10
+    results = []
+    # print("strcuted_input", strcuted_input)
+    # Generate a valid collection name
+    print(f"Creating collection: {"document_summariser"}")
+    collection = create_astra_collection(
+        collection_name="document_summariser",
+        database=astra_client)
+
+    for i in range(0, len(task_request.documentUrls), batch_size):
+        batch_urls = task_request.documentUrls[i:i + batch_size]
+        batch_results = []
+        for url in batch_urls:
+            file = get_file_from_url(url)
+            chunks = chuncker(file, chunk_size=500, chunk_overlap=100)
+            batch_results.extend(chunks)   
+        upload_documents_to_astra(
+            documents=batch_results,
+            collection = collection
+        )
+
+    print("task_request", task_request)
+
+    insight = task_request.inputData.get("text", "provide a summary of the document")
+    # Run the research paper summary agent
+    agentOutput = runSummarizerAgent(DocumentSummariserInputModel(insight=insight, collection_name="document_summariser", document="document"))
+    print("agentOutput", agentOutput.model_dump())
+    return TaskResult(
+        task_status=TaskStatus.COMPLETED,
+        result_payload={"unstructured_text": agentOutput.model_dump().get("raw", "")},
+        parent_transaction_id=task_request.parent_transaction_id
+    )

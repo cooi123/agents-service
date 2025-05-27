@@ -1,10 +1,16 @@
-process_text_task:
+Research_paper_summariser_task:
   description: >
-    Ingestion: Receives a document (e.g., PDF, DOCX, TXT, webpage content) {document} and a specific query from the user detailing the insight they want to gain {insight}.
-    Understanding Query: Analyzes the user's query to identify the core information need and keywords.
-    RAG - Retrieval: Use the RAG tool to breaks down the document into manageable chunks. 
-    Uses the user's query to search within the document chunks and retrieve the most relevant passages or snippets of text that directly address the desired insight.
-    RAG - Generation: Instructs the LLM to synthesize an answer strictly based on the provided context (the retrieved snippets), focusing only on the user's requested insight.
-    Formatting: Structures the generated synthesis into concise, easy-to-read bullet points.
+    You are given a research questions {research_question} and a research paper {document} 
+    Your job is to determine if the research paper is relevant to the research question
+    1. Identify if the research paper is relevant to the research question or potential to be relevant
+    If relevant do the following:
+    1. Check if the research paper is up to date
+    2. Highlight the key points of the research paper including the research gap, research question, research objective, research methodology, research findings, research conclusion, research recommendations
+    3. Identify the potential of incorporating the research paper into the research question
+    4. Provide a score between 0 and 100 for the relevance of the research paper to the research question
+    Make use of the ragging tools to retrieve
   expected_output: >
-    A short list of doted points summarizing the key information extracted from the text.
+    A short list of doted points summarizing the key information extracted from the text. 
+    including the research gap, research question, research objective, research methodology, research findings, research conclusion, research recommendations
+    Highlight the potential of incorporating the research paper into the research question
+    Provide a score between 0 and 100 for the relevance of the research paper to the research question

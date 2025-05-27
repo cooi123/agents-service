@@ -2,7 +2,7 @@ from typing import Type, Any, Optional
 from crewai.tools import BaseTool
 from datetime import datetime
 from pydantic import BaseModel, Field
-from utils.astradb_utils import initialize_astra_client, search_astra_collection,create_astra_collection
+from src.utils.astradb_utils import initialize_astra_client, search_astra_collection,create_astra_collection
 import os
 from dotenv import load_dotenv
 load_dotenv()

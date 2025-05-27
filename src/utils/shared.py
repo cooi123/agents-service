@@ -33,7 +33,7 @@ def send_update_to_broker(task_request: CeleryTaskRequest, result: TaskResult):
     callback_url = task_request.callback_url
 
     print("sending update to broker", callback_url)
-    print("result", result)
+    print("result", result.model_dump_json())
     #do a post request to the broker_url with the result
     client = httpx.Client()
     response = client.post(callback_url, json=result.model_dump())

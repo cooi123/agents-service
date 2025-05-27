@@ -60,7 +60,7 @@ class ComputationalUsage(BaseModel):
 class TaskResult(BaseModel):
     """Model for task results"""
     # Result data
-    result_payload: dict = {}
+    result_payload: dict =None
     result_document_urls: Optional[List[str]] = None
     error_message: Optional[str] = None
     token_usage: Optional[TokenUsage] = None

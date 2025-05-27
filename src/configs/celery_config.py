@@ -9,8 +9,10 @@ celery_app = Celery(
     backend=os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0'),
 )
 
-celery_app.conf.update(
+# Configure Celery to auto-discover tasks
+celery_app.autodiscover_tasks(['src.tasks'])
 
+celery_app.conf.update(
     task_serializer='json',
     accept_content=['json'],
     result_serializer='json',
@@ -22,5 +24,4 @@ celery_app.conf.update(
     worker_max_tasks_per_child=10, 
     task_time_limit=3600,                 # Hard time limit (1 hour)
     task_soft_time_limit=3000,  
-    
 )

@@ -2,7 +2,7 @@ from .crew import SchemaProcessorCrew
 from pydantic import BaseModel
 from typing import Type
 
-def runAgentTextToSchema(input_data: str, target_model: Type[BaseModel]) -> str:
+def runAgentTextToSchema(input_data: str, target_model: Type[BaseModel]):
     """
     Run the text to schema agent
     """
