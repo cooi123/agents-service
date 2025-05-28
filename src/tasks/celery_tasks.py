@@ -4,6 +4,13 @@ import time
 import psutil
 from functools import wraps
 from src.agents.crewai_document_summariser.models.document_summariser_input import DocumentSummariserInputModel
+from src.agents.research_paper_script.main import run
+from src.agents.research_paper_script.models.research_script_input import ResearchPaperToScriptInputModel
+from src.utils.astradb_utils import initialize_astra_client, create_astra_collection, upload_documents_to_astra
+import os
+from dotenv import load_dotenv
+from src.utils.shared import generate_collection_name
+load_dotenv()
 
 from src.models.task_models import (
     TaskStatus, ResourceType, TaskType, TaskResult,
@@ -159,8 +166,6 @@ def create_research_paper_summary(self, task_request: CeleryTaskRequest) -> Task
             collection = collection
         )
 
-    print("task_request", task_request)
-
     insight = task_request.inputData.get("text", "provide a summary of the document")
     # Run the research paper summary agent
     agentOutput = runSummarizerAgent(DocumentSummariserInputModel(insight=insight, collection_name="document_summariser", document="document"))
@@ -170,3 +175,62 @@ def create_research_paper_summary(self, task_request: CeleryTaskRequest) -> Task
         result_payload={"unstructured_text": agentOutput.model_dump().get("raw", "")},
         parent_transaction_id=task_request.parent_transaction_id
     )
+
+@shared_task(bind=True)
+@with_transaction_tracking
+def create_research_paper_script(self, task_request: CeleryTaskRequest) -> TaskResult:
+    """Create a script for a research paper"""
+    if (len(task_request.documentUrls) == 0):
+        return TaskResult(
+            task_status=TaskStatus.FAILED,
+            error_message="No document URLs provided",
+            parent_transaction_id=task_request.parent_transaction_id
+        )
+    ##upload document to astra db
+    loaded_doc = get_file_from_url(task_request.documentUrls[0])
+    doc = "\n".join([doc.page_content for doc in loaded_doc])
+    astradb = initialize_astra_client(
+        astra_api_endpoint=os.getenv("ASTRA_DB_API_ENDPOINT"),
+        astra_token=os.getenv("ASTRA_DB_APPLICATION_TOKEN"),
+        astra_namespace="AgentManager"
+    )
+    collection_name = generate_collection_name(project_id=task_request.projectId, service_id=task_request.serviceId, transaction_id=task_request.parent_transaction_id)  
+    collection = create_astra_collection(
+        collection_name=collection_name,
+        database=astradb
+    )
+    chunks = chuncker(loaded_doc, chunk_size=500, chunk_overlap=100)
+    upload_documents_to_astra(
+        documents=chunks,
+        collection=collection
+    )
+    inputs = ResearchPaperToScriptInputModel(
+        document_url=task_request.documentUrls[0],
+        area_of_research=task_request.inputData.get("text", ""),
+        paper_title=task_request.inputData.get("text", ""),
+        paper_content=doc
+    )
+    agentOutput = run(inputs,collection_name=collection_name)
+    agentOutputDict = agentOutput.model_dump()
+    raw_token_usage = agentOutputDict.get("token_usage", {})
+    
+    # Convert raw token usage to TokenUsage model
+    token_usage = TokenUsage(
+        tokens_total=raw_token_usage.get("total_tokens", 0),
+        prompt_tokens=raw_token_usage.get("prompt_tokens", 0),
+        completion_tokens=raw_token_usage.get("completion_tokens", 0),
+        model_name="gemini-2.0-flash" 
+    )
+    
+    result = agentOutputDict.get("raw", {})
+
+    return TaskResult(
+        task_status=TaskStatus.COMPLETED,
+        result_payload={"unstructured_text": result},
+        token_usage=token_usage,
+        parent_transaction_id=task_request.parent_transaction_id
+    )
+
+    
+    
+    

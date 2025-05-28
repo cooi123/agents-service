@@ -2,16 +2,19 @@ import hashlib
 from src.models.task_models import CeleryTaskRequest, TaskResult
 import httpx
 
-def generate_collection_name(project_id: str, service_id: str) -> str:
+def generate_collection_name(project_id: str, service_id: str, transaction_id: str) -> str:
     """
     Generate a valid collection name from project_id and service_id.
+    project_id: the project id of the service uuid
+    service_id: the service id of the service uuid
+    transaction_id: the transaction id of the service uuid
     Ensures the name is:
     - Alphanumeric with underscores only
     - Max 48 characters
     - Unique and deterministic for the same inputs
     """
     # Combine service_id and project_id for uniqueness
-    combined = f"{service_id}_{project_id}"
+    combined = f"{service_id}_{project_id}_{transaction_id}"
     
     # Create a hash of the combined string
     hash_object = hashlib.md5(combined.encode())
@@ -30,6 +33,7 @@ def send_update_to_broker(task_request: CeleryTaskRequest, result: TaskResult):
     """
     Send an update to the broker.
     """
+
     callback_url = task_request.callback_url
 
     print("sending update to broker", callback_url)
