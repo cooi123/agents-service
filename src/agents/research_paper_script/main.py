@@ -2,7 +2,7 @@ import sys
 from src.agents.research_paper_script.crew import ResearchPaperToScriptCrew
 from src.agents.research_paper_script.models.research_script_input import ResearchPaperToScriptInputModel
 
-def run(inputs:ResearchPaperToScriptInputModel,collection_name:str, **kwargs):
+def runResearchPaperToScripAgent(inputs:ResearchPaperToScriptInputModel,collection_name:str, **kwargs):
     
     result = ResearchPaperToScriptCrew(document_collection_name=collection_name).crew().kickoff(inputs=inputs.model_dump())   
     
@@ -64,4 +64,4 @@ if __name__ == "__main__":
         paper_content = docs
         # abstract
     )
-    run(inputs)
+    runResearchPaperToScripAgent(inputs)
