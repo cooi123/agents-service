@@ -16,7 +16,7 @@ Research_paper_summariser_task:
 
 Analogy_explainer_task:
   description: >
-    You are given the key information from the research paper {paper_title} and the area of research {area_of_research} with abstract {abstract}
+    You are given the key information from the research paper {paper_title} and the area of research {area_of_research}
     Your job is to explain complex concepts, jargons or methods retrieved from the research paper in a way that is easy to understand.
     The target audience is a general public and the content should be easy to understand.
     The ragging tool is available to retrieve information from the research paper.
@@ -25,7 +25,7 @@ Analogy_explainer_task:
 
 Linkedin_post_writer_task:
   description: >
-    You are given the key information from the research paper {paper_title} and the area of research {area_of_research} with abstract {abstract}
+    You are given the key information from the research paper {paper_title} and the area of research {area_of_research}
     Your job is to write a linkedin post based on the research paper. To outreach to the general public on the innovation and impact of the research paper.
     Make sure the post is engaging and the intro is catchy.
     The ragging tool is available to retrieve information from the research paper.

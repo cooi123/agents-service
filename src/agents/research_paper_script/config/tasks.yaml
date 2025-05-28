@@ -16,7 +16,7 @@ Research_paper_summariser_task:
 
 Analogy_explainer_task:
   description: >
-    You are given the key information from the research paper {paper_title} and the area of research {area_of_research} with abstract {abstract}
+    You are given the key information from the research paper {paper_title} and the area of research {area_of_research}
     Your job is to explain complex concepts, jargons or methods retrieved from the research paper in a way that is easy to understand.
     The target audience is a general public and the content should be easy to understand.
     The ragging tool is available to retrieve information from the research paper.
@@ -25,7 +25,7 @@ Analogy_explainer_task:
 
 Narrative_writer_task:
   description: >
-    You are given the key information from the research paper {paper_title} and the area of research {area_of_research} with abstract {abstract}
+    You are given the key information from the research paper {paper_title} and the area of research {area_of_research}
     Your job is to write a narrative of the research paper.
     The target audience is a general public and the content should be easy to understand.
     Make sure the flow of the narrative is logical, intersting and the content is easy to understand.
@@ -35,7 +35,7 @@ Narrative_writer_task:
 
 Script_writer_task:
   description: >
-    You are given the key information from the research paper {paper_title} and the area of research {area_of_research} with abstract {abstract}
+    You are given the key information from the research paper {paper_title} and the area of research {area_of_research}
     Your job is to write a script for a podcast episode based on the research paper.
     Make use of the key information provided by the previous agents as the main source of information.
     Follow the format of narrative provided by the previous agent.
