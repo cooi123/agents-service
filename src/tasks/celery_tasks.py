@@ -6,7 +6,7 @@ from functools import wraps
 from src.agents.crewai_document_summariser.models.document_summariser_input import DocumentSummariserInputModel
 from src.agents.research_paper_script.main import run
 from src.agents.research_paper_script.models.research_script_input import ResearchPaperToScriptInputModel
-from src.utils.astradb_utils import initialize_astra_client, create_astra_collection, upload_documents_to_astra
+from src.utils.astradb_utils import initialize_astra_client, create_astra_collection, upload_documents_to_astra, delete_astra_collection
 import os
 from dotenv import load_dotenv
 from src.utils.shared import generate_collection_name
@@ -24,6 +24,7 @@ from src.agents.crewai_document_summariser.models.document_summariser_input impo
 from src.agents.crewai_text_to_schema.main import runAgentTextToSchema
 from src.utils.file_processsing import get_file_from_url, chuncker
 from src.utils.astradb_utils import create_astra_collection, upload_documents_to_astra, astra_client
+from src.utils.text_to_speech import text_to_speech
 
 def track_usage_metrics(start_time: float, resource_type: ResourceType = ResourceType.LLM) -> ComputationalUsage:
     """Track usage metrics for a task"""
@@ -224,9 +225,15 @@ def create_research_paper_script(self, task_request: CeleryTaskRequest) -> TaskR
     
     result = agentOutputDict.get("raw", {})
 
+    ##clean up the collection
+    delete_astra_collection(collection_name=collection_name, database=astradb)
+    #text to speech
+    audio_url = text_to_speech(result, bucket_name="podcast-audio")
+
     return TaskResult(
         task_status=TaskStatus.COMPLETED,
         result_payload={"unstructured_text": result},
+        result_document_urls=[audio_url],
         token_usage=token_usage,
         parent_transaction_id=task_request.parent_transaction_id
     )

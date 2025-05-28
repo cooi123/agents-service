@@ -76,7 +76,6 @@ def text_to_speech(content: str, bucket_name: str = None) -> str:
     
     data = response.candidates[0].content.parts[0].inline_data.data
     print("successfully generated audio")
-    print(data)
     wave_data = create_wave_file(data)
     
     if bucket_name:
