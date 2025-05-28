@@ -1,0 +1,46 @@
+Research_paper_summariser_task:
+  description: >
+    You are given the area of research {area_of_research} with paper title {paper_title} given paper content {paper_content}
+    Your job is to extract the key information from the research paper.
+    The key information includes:
+    1. Problem statement - what the gap is the paper trying to fill
+    2. Core hypothesis - what did they set out to test
+    3. Methodology - what was the methodology used to test the hypothesis
+    4. Key findings - what did they find
+    5. Key insights - what did they learn
+    6. Key implications - what are the implications of the findings
+    7. Key recommendations - what are the recommendations for the future
+    The ragging tool is available to retrieve information from the research paper.
+  expected_output: >
+    A short lists of key information extracted from the research paper.
+
+Analogy_explainer_task:
+  description: >
+    You are given the key information from the research paper {paper_title} and the area of research {area_of_research}
+    Your job is to explain complex concepts, jargons or methods retrieved from the research paper in a way that is easy to understand.
+    The target audience is a general public and the content should be easy to understand.
+    The ragging tool is available to retrieve information from the research paper.
+  expected_output: >
+    A lists of key information from the research paper in a way that is easy to understand.
+
+Narrative_writer_task:
+  description: >
+    You are given the key information from the research paper {paper_title} and the area of research {area_of_research}
+    Your job is to write a narrative of the research paper.
+    The target audience is a general public and the content should be easy to understand.
+    Make sure the flow of the narrative is logical, intersting and the content is easy to understand.
+    The ragging tool is available to retrieve information from the research paper.
+  expected_output: >
+    A narrative of the research paper.
+
+Script_writer_task:
+  description: >
+    You are given the key information from the research paper {paper_title} and the area of research {area_of_research}
+    Your job is to write a script for a podcast episode based on the research paper.
+    Make use of the key information provided by the previous agents as the main source of information.
+    Follow the format of narrative provided by the previous agent.
+    The target audience is a general public and the content should be easy to understand.
+    You can make use of web search tool to find more information that can be related to the research paper and provided it in the script. To make a relevant and reletable content
+    The ragging tool is available to retrieve information from the research paper.
+  expected_output: >
+    A script for a podcast episode based on the research paper.
