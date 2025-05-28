@@ -184,6 +184,48 @@ def retrieve_redis_vectorstore(index_name, redis_url="redis://localhost:6379"):
     return vectorstore
 
 
+def extract_metadata_from_docs(docs):
+    """
+    Extract metadata from the document's metadata field.
+    """
+    if not docs or len(docs) == 0:
+        return {}
+    
+    # Get metadata from the first document (they should all have the same metadata)
+    metadata = docs[0].metadata
+    
+    # Extract relevant fields
+    extracted_metadata = {
+        'title': metadata.get('title', ''),
+        'authors': metadata.get('author', ''),
+        'doi': metadata.get('doi', ''),
+        'arxiv_id': metadata.get('arxivid', ''),
+        'total_pages': metadata.get('total_pages', 0)
+    }
+    abstract = metadata.get('abstract')
+
+    
+    # Extract abstract from the first page content
+    first_page = docs[0].page_content
+    abstract = []
+    in_abstract = False
+    if abstract:
+        extracted_metadata['abstract'] = abstract
+    else:
+        for line in first_page.split('\n'):
+            if line.lower().startswith('abstract'):
+                in_abstract = True
+                continue
+            if in_abstract and line.strip() and not line.lower().startswith('introduction'):
+                abstract.append(line.strip())
+            elif in_abstract and line.lower().startswith('introduction'):
+                break
+    
+        if abstract:
+            extracted_metadata['abstract'] = ' '.join(abstract)
+    
+    return extracted_metadata
+
 if __name__ == "__main__":
     url = "https://xpyywboavdinaejdvoxv.supabase.co/storage/v1/object/sign/documents/personal/4346760b-c202-4506-ae91-93f314f471ea/1746063088139-sample.pdf?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2E2ZjA2MzA3LTNiNjAtNGVhNi05MmJhLTUzNjk1ZDkxMzBlYiJ9.eyJ1cmwiOiJkb2N1bWVudHMvcGVyc29uYWwvNDM0Njc2MGItYzIwMi00NTA2LWFlOTEtOTNmMzE0ZjQ3MWVhLzE3NDYwNjMwODgxMzktc2FtcGxlLnBkZiIsImlhdCI6MTc0NjA2NTcyNCwiZXhwIjoxNzQ2MDY5MzI0fQ.OIqEd7w4cNvDTf1W5fRNYt360wrHnuqRofPiRhYs2aI"
 
