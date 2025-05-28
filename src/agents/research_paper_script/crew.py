@@ -101,7 +101,7 @@ class ResearchPaperToScriptCrew():
         return Task(
             config=self.tasks_config["Script_writer_task"],
             agent=self.script_writer_agent(),
-            tools=[self.astra_rag_tool],
+            tools=[self.astra_rag_tool, self.serper_dev_tool],
         )
     
     @crew

@@ -192,7 +192,7 @@ def create_research_paper_script(self, task_request: CeleryTaskRequest) -> TaskR
     astradb = initialize_astra_client(
         astra_api_endpoint=os.getenv("ASTRA_DB_API_ENDPOINT"),
         astra_token=os.getenv("ASTRA_DB_APPLICATION_TOKEN"),
-        astra_namespace="AgentManager"
+        astra_namespace="test"
     )
     collection_name = generate_collection_name(project_id=task_request.projectId, service_id=task_request.serviceId, transaction_id=task_request.parent_transaction_id)  
     collection = create_astra_collection(

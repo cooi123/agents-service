@@ -40,6 +40,7 @@ Script_writer_task:
     Make use of the key information provided by the previous agents as the main source of information.
     Follow the format of narrative provided by the previous agent.
     The target audience is a general public and the content should be easy to understand.
+    Make it a conversational style between the host and the guest, the guest in this case is the author of the research paper.
     You can make use of web search tool to find more information that can be related to the research paper and provided it in the script. To make a relevant and reletable content
     The ragging tool is available to retrieve information from the research paper.
   expected_output: >
