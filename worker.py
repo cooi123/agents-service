@@ -77,7 +77,8 @@ if __name__ == '__main__':
     logger.info("🔄 Importing task modules...")
     from src.tasks.celery_tasks import (
         create_consultant_primer,
-        create_research_paper_script
+        create_research_paper_script,
+        create_research_paper_post
     )
     logger.info("✅ Task modules imported successfully")
     

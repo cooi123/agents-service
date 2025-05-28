@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.tasks.celery_tasks import create_consultant_primer, create_research_paper_summary, create_research_paper_script
+from src.tasks.celery_tasks import create_consultant_primer, create_research_paper_summary, create_research_paper_script, create_research_paper_post
 from src.models.task_models import CeleryTaskRequest, TaskStatus, TaskResult
 from src.configs.celery_config import celery_app
 from src.utils.shared import send_update_to_broker
@@ -61,4 +61,18 @@ def run_research_paper_script_task(request: CeleryTaskRequest):
     }
 
 
+@app.post("/research-paper-post")
+def run_research_paper_post_task(request: CeleryTaskRequest):
+    print("received request", request)
+    # Send initial pending status
+    send_update_to_broker(request, TaskResult(
+        task_status=TaskStatus.PENDING,
+        parent_transaction_id=request.parent_transaction_id
+    ))
+    task = create_research_paper_post.delay(request.model_dump())
+    return {
+        "task_id": task.id,
+        "status": TaskStatus.PENDING,
+        "parent_transaction_id": request.parent_transaction_id
+    }
 #fix the base name url 

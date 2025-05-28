@@ -4,9 +4,12 @@ import time
 import psutil
 from functools import wraps
 from src.agents.crewai_document_summariser.models.document_summariser_input import DocumentSummariserInputModel
-from src.agents.research_paper_script.main import run
-from src.agents.research_paper_script.models.research_script_input import ResearchPaperToScriptInputModel
+from src.agents.research_paper_script.main import runResearchPaperToScripAgent
+from src.agents.research_paper_script.models.research_script_input import ResearchPaperToScriptInputModel  
+from src.agents.research_paper_post.main import runResearchPaperToPostAgent
+from src.agents.research_paper_post.models.research_post_input import ResearchPaperToPostInputModel
 from src.utils.astradb_utils import initialize_astra_client, create_astra_collection, upload_documents_to_astra, delete_astra_collection
+from src.utils.file_processsing import extract_metadata_from_docs
 import os
 from dotenv import load_dotenv
 from src.utils.shared import generate_collection_name
@@ -189,6 +192,7 @@ def create_research_paper_script(self, task_request: CeleryTaskRequest) -> TaskR
         )
     ##upload document to astra db
     loaded_doc = get_file_from_url(task_request.documentUrls[0])
+    metadata = extract_metadata_from_docs(loaded_doc)
     doc = "\n".join([doc.page_content for doc in loaded_doc])
     astradb = initialize_astra_client(
         astra_api_endpoint=os.getenv("ASTRA_DB_API_ENDPOINT"),
@@ -208,10 +212,11 @@ def create_research_paper_script(self, task_request: CeleryTaskRequest) -> TaskR
     inputs = ResearchPaperToScriptInputModel(
         document_url=task_request.documentUrls[0],
         area_of_research=task_request.inputData.get("text", ""),
-        paper_title=task_request.inputData.get("text", ""),
-        paper_content=doc
+        paper_title=metadata.get("title") or task_request.inputData.get("text", ""),
+        paper_content=doc[:10000],
+        abstract=metadata.get("abstract", "")
     )
-    agentOutput = run(inputs,collection_name=collection_name)
+    agentOutput = runResearchPaperToScripAgent(inputs,collection_name=collection_name)
     agentOutputDict = agentOutput.model_dump()
     raw_token_usage = agentOutputDict.get("token_usage", {})
     
@@ -236,6 +241,64 @@ def create_research_paper_script(self, task_request: CeleryTaskRequest) -> TaskR
         result_document_urls=[audio_url],
         token_usage=token_usage,
         parent_transaction_id=task_request.parent_transaction_id
+    )
+
+@shared_task(bind=True)
+@with_transaction_tracking
+def create_research_paper_post(self, task_request: CeleryTaskRequest) -> TaskResult:
+    """Create a post for a research paper"""
+    print("task id", self.request.id)
+    print("task request", task_request)
+
+    ##upload document to astra db
+    loaded_doc = get_file_from_url(task_request.documentUrls[0])
+    metadata = extract_metadata_from_docs(loaded_doc)
+
+    doc = "\n".join([doc.page_content for doc in loaded_doc])
+
+    astradb = initialize_astra_client(
+        astra_api_endpoint=os.getenv("ASTRA_DB_API_ENDPOINT"),
+        astra_token=os.getenv("ASTRA_DB_APPLICATION_TOKEN"),
+        astra_namespace="test"
+    )
+    collection_name = generate_collection_name(project_id=task_request.projectId, service_id=task_request.serviceId, transaction_id=task_request.parent_transaction_id)  
+    collection = create_astra_collection(
+        collection_name=collection_name,
+        database=astradb
+    )
+    chunks = chuncker(loaded_doc, chunk_size=500, chunk_overlap=100)
+    upload_documents_to_astra(
+        documents=chunks,
+        collection=collection
+    )
+    inputs = ResearchPaperToPostInputModel(
+        document_url=task_request.documentUrls[0],
+        area_of_research=task_request.inputData.get("text", ""),
+        paper_title=metadata.get("title") or task_request.inputData.get("text", ""),     
+        abstract=metadata.get("abstract", ""),
+        paper_content=doc[:10000]
+    )
+    agentOutput = runResearchPaperToPostAgent(inputs,collection_name=collection_name)
+    agentOutputDict = agentOutput.model_dump()
+    raw_token_usage = agentOutputDict.get("token_usage", {})
+
+    result = agentOutputDict.get("raw", {})
+
+    token_usage = TokenUsage(
+        tokens_total=raw_token_usage.get("total_tokens", 0),
+        prompt_tokens=raw_token_usage.get("prompt_tokens", 0),
+        completion_tokens=raw_token_usage.get("completion_tokens", 0),
+        model_name="gemini/gemini-2.0-flash"
+    )
+
+
+    ##clean up the collection
+    delete_astra_collection(collection_name=collection_name, database=astradb)
+    return TaskResult(
+        task_status=TaskStatus.COMPLETED,
+        result_payload={"unstructured_text": result},
+        parent_transaction_id=task_request.parent_transaction_id,
+        token_usage=token_usage
     )
 
     
