@@ -2,7 +2,7 @@ from typing import Type, Any, Optional
 from crewai.tools import BaseTool
 from datetime import datetime
 from pydantic import BaseModel, Field
-from src.utils.astradb_utils import initialize_astra_client, search_astra_collection,create_astra_collection
+from src.utils.astradb_utils import initialize_astra_client, search_astra_collection
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -32,7 +32,7 @@ class AstradbVectorSearchTool(BaseTool):
             astra_token=os.environ.get("ASTRA_DB_APPLICATION_TOKEN",kwargs.get("astra_token")),
             astra_namespace=index_name,
         )
-        self.collection= create_astra_collection(collection_name=collection_name,database=self.vectorstore)
+        self.collection= self.vectorstore.get_collection(collection_name)
 
         
     def _run(self, query: str=None,top_k:int=5 ,**kwargs):

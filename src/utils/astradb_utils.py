@@ -173,7 +173,7 @@ def delete_astra_collection(
         collection_name: Name of the collection to delete
         database: AstraDB database client
     """
-    database.delete_collection(collection_name)
+    database.drop_collection(collection_name)
 
 
 astra_client = initialize_astra_client(
