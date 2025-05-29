@@ -78,7 +78,8 @@ if __name__ == '__main__':
     from src.tasks.celery_tasks import (
         create_consultant_primer,
         create_research_paper_script,
-        create_research_paper_post
+        create_research_paper_post,
+        create_linkedin_lead_email_generator
     )
     logger.info("✅ Task modules imported successfully")
     

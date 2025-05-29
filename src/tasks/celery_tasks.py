@@ -28,6 +28,9 @@ from src.agents.crewai_text_to_schema.main import runAgentTextToSchema
 from src.utils.file_processsing import get_file_from_url, chuncker
 from src.utils.astradb_utils import create_astra_collection, upload_documents_to_astra, astra_client
 from src.utils.text_to_speech import text_to_speech
+from src.agents.crewai_sales_personalized_email.main import runSalesPersonalizedEmail
+from src.agents.crewai_sales_personalized_email.models import SalesAgentInputModel
+
 
 def track_usage_metrics(start_time: float, resource_type: ResourceType = ResourceType.LLM) -> ComputationalUsage:
     """Track usage metrics for a task"""
@@ -151,18 +154,25 @@ def create_research_paper_summary(self, task_request: CeleryTaskRequest) -> Task
 
     batch_size = 10
     results = []
-    # print("strcuted_input", strcuted_input)
-    # Generate a valid collection name
-    print(f"Creating collection: {"document_summariser"}")
+    astradb = initialize_astra_client(
+        astra_api_endpoint=os.getenv("ASTRA_DB_API_ENDPOINT"),
+        astra_token=os.getenv("ASTRA_DB_APPLICATION_TOKEN"),
+        astra_namespace="test"
+    )
+    collection_name = generate_collection_name(project_id=task_request.projectId, service_id=task_request.serviceId, transaction_id=task_request.parent_transaction_id)  
     collection = create_astra_collection(
-        collection_name="document_summariser",
-        database=astra_client)
+        collection_name=collection_name,
+        database=astradb
+    )
 
     for i in range(0, len(task_request.documentUrls), batch_size):
         batch_urls = task_request.documentUrls[i:i + batch_size]
         batch_results = []
         for url in batch_urls:
             file = get_file_from_url(url)
+            metadata = extract_metadata_from_docs(file)
+            doc = "\n".join([doc.page_content for doc in file])
+
             chunks = chuncker(file, chunk_size=500, chunk_overlap=100)
             batch_results.extend(chunks)   
         upload_documents_to_astra(
@@ -301,6 +311,34 @@ def create_research_paper_post(self, task_request: CeleryTaskRequest) -> TaskRes
         token_usage=token_usage
     )
 
-    
+
+@shared_task(bind=True)
+@with_transaction_tracking
+def create_linkedin_lead_email_generator(self, task_request: CeleryTaskRequest) -> TaskResult:
+    """Create a personalized email for a LinkedIn lead"""
+    print("task id", self.request.id)
+    print("task request", task_request)
+
+    inputs = SalesAgentInputModel(
+        info=task_request.inputData.get("text", "")
+    )
+
+    agentOutput = runSalesPersonalizedEmail(inputs)
+    agentOutputDict = agentOutput.model_dump()
+    raw_token_usage = agentOutputDict.get("token_usage", {})
+    token_usage = TokenUsage(
+        tokens_total=raw_token_usage.get("total_tokens", 0),
+        prompt_tokens=raw_token_usage.get("prompt_tokens", 0),
+        completion_tokens=raw_token_usage.get("completion_tokens", 0),
+        model_name="gemini/gemini-2.0-flash"
+    )
+    result = agentOutputDict.get("raw", {})
+
+    return TaskResult(
+        task_status=TaskStatus.COMPLETED,
+        result_payload={"unstructured_text": result},
+        parent_transaction_id=task_request.parent_transaction_id,
+        token_usage=token_usage
+    )
     
     
