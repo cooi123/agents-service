@@ -12,7 +12,15 @@ class SalesPersonalizedEmailCrew:
 
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
-    directory_read_tool = DirectoryReadTool(directory="./template",)
+    @agent
+    def information_extractor(self) -> Agent:
+        return Agent(
+            config=self.agents_config["information_extractor"],
+            tools=[],
+            allow_delegation=False,
+            verbose=True,
+            memory = True,
+        )
 
     @agent
     def prospect_researcher(self) -> Agent:
@@ -63,6 +71,13 @@ class SalesPersonalizedEmailCrew:
             verbose=True,
             memory = True,
         )
+    
+    @task
+    def information_extractor_task(self) -> Task:
+        return Task(
+            config=self.tasks_config["information_extractor_task"],
+            agent=self.information_extractor(),
+        )
 
     @task
     def research_prospect_task(self) -> Task:
@@ -89,9 +104,6 @@ class SalesPersonalizedEmailCrew:
         return Task(
             config=self.tasks_config["write_email_task"],
             agent=self.email_copywriter(),
-            output_json=PersonalizedEmail,
-            output_file="personalized_email.md",
-            tools=[self.directory_read_tool, FileReadTool()],
         )
     
     @task
@@ -99,9 +111,6 @@ class SalesPersonalizedEmailCrew:
         return Task(
             config=self.tasks_config["review_email_task"],
             agent=self.email_editor(),
-            output_pydantic=PersonalizedEmail,
-            output_file="personalized_email.md",
-            tools=[self.directory_read_tool, FileReadTool()],
         )
 
     @crew
@@ -110,7 +119,11 @@ class SalesPersonalizedEmailCrew:
         return Crew(
             agents=self.agents,  # Automatically created by the @agent decorator
             tasks=self.tasks,  # Automatically created by the @task decorator
-            process=Process.sequential,
+            process=Process.hierarchical,
             verbose=True,
+            manager_llm="gemini/gemini-2.0-flash",
+            planning= True,
+            planning_llm="gemini/gemini-2.0-flash",
+      
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )
